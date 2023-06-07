@@ -5,6 +5,7 @@ import { Login } from '../interfaces/ILogin';
 import { BehaviorSubject, map } from 'rxjs';
 import { IUserResponse } from '../interfaces/IUserResponse';
 import { save,remove } from '../utils/Storage';
+import { IRegister } from '../interfaces/IRegister';
 @Injectable({
   providedIn: 'root'
 })
@@ -25,8 +26,23 @@ export class AccountService {
             save("user", JSON.stringify(user));
             this.setCurrentUser(user);
           }
+          return user;
         })
       );
+  }
+
+  register(register: IRegister) {
+    return this.http.post<IUserResponse>(environment.baseUrl.concat('/accounts/register'), register).pipe(
+      map(response => {
+        const user = response
+        if (user) {
+          save("user", JSON.stringify(user));
+          this.setCurrentUser(user);
+        }
+
+        return user;
+      })
+    );
   }
 
   setCurrentUser(user: IUserResponse | null) {

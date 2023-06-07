@@ -12,8 +12,16 @@
     <div class="container" *ngIf="registerMode">
         <div class="row justity-content-center">
             <div class="col-4">
-                <p>Register form goes here</p>
+                <app-register
+                    (cancelRegister)="cancelRegisterMode($event)"  
+                ></app-register>
             </div>
         </div>
     </div>
 </div>
+
+<!-- (cancelRegister)="cancelRegisterMode($event)" cancelRegister es un evento que se envia del componente hijo app-register
+
+    el componente padre home-component debe recibirlo en un evento de propio que es cancelRegisterMode y recibir como parametro lo que el metodo del componente
+    hijo esta emitiendo
+-->
