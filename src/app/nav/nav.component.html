@@ -1,0 +1,54 @@
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Dating App</a>
+    <!-- *ngIf="currentUser$ | async"  utilizar observables y pipe async para saber si hay o no una sesion -->
+    <ul 
+      *ngIf="currentUser$ | async" 
+      class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
+      style="--bs-scroll-height: 100px"
+    >
+      <li class="nav-item">
+        <a class="nav-link" href="#">Matches</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">List</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Messages</a>
+      </li>
+    </ul>
+
+    <div class="dropdown" *ngIf="currentUser$ | async" dropdown>
+      <a class="dropdown-toggle text-dark text-decoration-none" dropdownToggle>
+        Welcome User
+      </a>
+      <div class="dropdown-menu mt-3" *dropdownMenu>
+        <a class="dropdown-item"> Edite Profile </a>
+        <a class="dropdown-item" (click)="logout()"> Logout </a>
+      </div>
+    </div>
+    <form
+      *ngIf="!(currentUser$ | async)"
+      class="d-flex"
+      #loginForm="ngForm"
+      (ngSubmit)="login($event)"
+      autocomplete="off"
+    >
+      <input
+        [(ngModel)]="model.username"
+        name="username"
+        class="form-control me-2"
+        type="text"
+        placeholder="Username"
+      />
+      <input
+        [(ngModel)]="model.password"
+        name="password"
+        class="form-control me-2"
+        type="password"
+        placeholder="Password"
+      />
+      <button class="btn btn-outline-success" type="submit">Login</button>
+    </form>
+  </div>
+</nav>
