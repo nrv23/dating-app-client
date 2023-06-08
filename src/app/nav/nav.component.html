@@ -5,11 +5,12 @@
     >
     <!-- *ngIf="currentUser$ | async"  utilizar observables y pipe async para saber si hay o no una sesion -->
     <ul
-      *ngIf="currentUser$ | async"
+      
       class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
       style="--bs-scroll-height: 100px"
     >
 
+       <ng-template *ngIf="currentUser$ | async">
         <li class="nav-item">
           <a class="nav-link" routerLinkActive="active" routerLink="/members"
             >Matches</a
@@ -25,6 +26,13 @@
             >Messages</a
           >
         </li>
+       </ng-template>
+
+       <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" routerLink="/errors"
+          >Errors</a
+        >
+      </li>
 
     </ul>
 
