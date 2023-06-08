@@ -1,26 +1,36 @@
 <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Dating App</a>
+    <a class="navbar-brand" routerLink="/" routerLinkActive="active"
+      >Dating App</a
+    >
     <!-- *ngIf="currentUser$ | async"  utilizar observables y pipe async para saber si hay o no una sesion -->
-    <ul 
-      *ngIf="currentUser$ | async" 
+    <ul
+      *ngIf="currentUser$ | async"
       class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
       style="--bs-scroll-height: 100px"
     >
-      <li class="nav-item">
-        <a class="nav-link" href="#">Matches</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">List</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Messages</a>
-      </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/members"
+            >Matches</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/lists"
+            >List</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/messages"
+            >Messages</a
+          >
+        </li>
+
     </ul>
 
-    <div class="dropdown" *ngIf="currentUser$ | async" dropdown>
+    <div class="dropdown" *ngIf="(currentUser$ | async) as user" dropdown>
       <a class="dropdown-toggle text-dark text-decoration-none" dropdownToggle>
-        Welcome User
+        Welcome <b>{{user.username | titlecase}}</b>
       </a>
       <div class="dropdown-menu mt-3" *dropdownMenu>
         <a class="dropdown-item"> Edite Profile </a>
@@ -48,7 +58,7 @@
         type="password"
         placeholder="Password"
       />
-      <button class="btn btn-outline-success" type="submit">Login</button>
+      <button class="btn btn-success" type="submit">Login</button>
     </form>
   </div>
 </nav>

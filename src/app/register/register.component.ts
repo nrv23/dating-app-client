@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { IRegister } from '../interfaces/IRegister';
 import { AccountService } from '../_services/account.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +17,7 @@ export class RegisterComponent implements OnInit {
     password: ""
   };
 
-  constructor(private accountService: AccountService) { }
+  constructor(private accountService: AccountService,private toastr: ToastrService) { }
 
   ngOnInit(): void { }
 
@@ -29,7 +30,19 @@ export class RegisterComponent implements OnInit {
         this.cancel();
        },
       error: (err) => { 
-        console.error(err.error)
+        const { error } = err;
+        if(error.msg) {
+          this.toastr.error(error.msg,"Ha ocurrido un error");
+        }
+
+        if(error.errors){
+          const errors : string[] = [];  
+          for (const key of Object.keys(error.errors)) {
+            errors.push(error.errors[key]);
+          }
+          this.toastr.error(errors.toString().replace(',',''),"Ha ocurrido un error");
+        }
+          
       },
       complete: () => { },
     });
