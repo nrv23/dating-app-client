@@ -17,6 +17,8 @@ import { ErrorComponent } from './errors/test/error/error.component';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { MemberCardComponent } from './members/member-card/member-card.component';
+import { TokenInterceptor } from './_interceptors/token.interceptor';
 
 
 @NgModule({
@@ -31,7 +33,8 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
     MessagesComponent,
     ErrorComponent,
     NotFoundComponent,
-    ServerErrorComponent
+    ServerErrorComponent,
+    MemberCardComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +46,8 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
     
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true} // multi: true indica que es un interceptor personalizado
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}, // multi: true indica que es un interceptor personalizado
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true} // multi: true indica que es un interceptor personalizado
   ],
   bootstrap: [AppComponent]
 })

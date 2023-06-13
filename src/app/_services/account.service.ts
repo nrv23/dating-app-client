@@ -1,23 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { Login } from '../interfaces/ILogin';
 import { BehaviorSubject, map } from 'rxjs';
 import { IUserResponse } from '../interfaces/IUserResponse';
 import { save,remove } from '../utils/Storage';
 import { IRegister } from '../interfaces/IRegister';
+import { getApiUrl } from '../utils/Api';
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
   private currentUserSource = new BehaviorSubject<IUserResponse | null>(null);
+  
   currentUserSource$ = this.currentUserSource.asObservable(); // esta propiedad es a donde los comppnentes se suscriben
+  apiUrl: string = getApiUrl();
+
   constructor(private http: HttpClient) { }
 
 
   login(login: Login) {
-    return this.http.post<IUserResponse>(environment.baseUrl.concat('/accounts/login'), login)
+    return this.http.post<IUserResponse>(this.apiUrl.concat('/accounts/login'), login)
       .pipe(
         map(response => {
 
@@ -32,7 +35,7 @@ export class AccountService {
   }
 
   register(register: IRegister) {
-    return this.http.post<IUserResponse>(environment.baseUrl.concat('/accounts/register'), register).pipe(
+    return this.http.post<IUserResponse>(this.apiUrl.concat('/accounts/register'), register).pipe(
       map(response => {
         const user = response
         if (user) {
