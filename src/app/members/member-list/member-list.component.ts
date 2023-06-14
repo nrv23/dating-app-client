@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { MemberService } from 'src/app/_services/member.service';
 import { IMember } from 'src/app/interfaces/IMember';
 
@@ -9,29 +10,12 @@ import { IMember } from 'src/app/interfaces/IMember';
 })
 export class MemberListComponent implements OnInit {
 
-  MembersList!: IMember[];
+  MembersList$: Observable<IMember[]> | undefined;
 
   constructor(private memberService: MemberService) { }
 
   ngOnInit(): void {
-
-    this.getMembers()
-  }
-
-  getMembers() {
-
-    this.memberService.getMembers()
-      .subscribe({
-        next: response => {
-          this.MembersList = response;
-        },
-        error: err => {
-          console.error(err)
-        },
-        complete: () => {
-
-        }
-      })
+    this.MembersList$ = this.memberService.getMembers();
   }
 
   getMemberByUsername(username: string) {
@@ -48,5 +32,4 @@ export class MemberListComponent implements OnInit {
         }
       })
   }
-
 }

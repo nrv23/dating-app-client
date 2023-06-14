@@ -9,6 +9,8 @@ import { AuthGuard } from './_guards/auth.guard';
 import { ErrorComponent } from './errors/test/error/error.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { PreventsUnsavedChangesGuard } from './_guards/prevents-unsaved-changes.guard';
 
 const routes: Routes = [
   {
@@ -16,17 +18,21 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: "members",
+    path: "",
     runGuardsAndResolvers:"always",
     canActivate: [AuthGuard],
     children: [ // manejar un conjunto de rutas hijas de un ruta principal
       {
-        path: '',
+        path: 'members',
         component: MemberListComponent,
       },
       {
-        path: ':username',
+        path: 'members/:username',
         component: MemberDetailComponent,
+      },{
+        path: 'member/edit',
+        component: MemberEditComponent,
+        canDeactivate:[PreventsUnsavedChangesGuard]
       },
       {
         path: 'lists',
