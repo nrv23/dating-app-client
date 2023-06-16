@@ -37,7 +37,8 @@
     </ul>
 
     <div class="dropdown" *ngIf="(currentUser$ | async) as user" dropdown>
-      <a class="dropdown-toggle text-dark text-decoration-none" dropdownToggle>
+      <img [src]="user.photoUrl || './assets/user.png'" alt="user photo">
+      <a class="dropdown-toggle text-dark text-decoration-none ms-1" dropdownToggle>
         Welcome <b>{{user.username | titlecase}}</b>
       </a>
       <div class="dropdown-menu mt-3" *dropdownMenu>
@@ -54,6 +55,7 @@
     >
       <input
         [(ngModel)]="model.username"
+        
         name="username"
         class="form-control me-2"
         type="text"
