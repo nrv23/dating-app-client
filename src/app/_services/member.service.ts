@@ -46,4 +46,23 @@ export class MemberService {
         })
       );
   }
+
+  setMainPhoto(id: number) {
+    return this.http.put<string>(this.apiUrl.concat(`/users/set-main-photo/${id}`),{})
+    .pipe(
+      map( () => {
+        return 'Se ha asignado como la foto de perfil';
+      })
+    );
+  }
+
+  deletePhoto(id: number){
+    //https://localhost:5001/api/users/lois
+    return this.http.delete<string>(this.apiUrl.concat(`/users/delete-photo/${id}`),{})
+    .pipe(
+      map( () => {
+        return 'Se ha eliminado la foto';
+      })
+    );
+  }
 }

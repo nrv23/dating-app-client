@@ -1,32 +1,63 @@
-<form #registerForm="ngForm" (ngSubmit)="register($event)" autocomplete="off">
+<form
+  [formGroup]="registerForm"
+  (ngSubmit)="register($event)"
+  autocomplete="off"
+>
   <h2 class="text-center text-primary">Sign Up</h2>
   <hr />
   <div class="mb-3">
     <input
-      [(ngModel)]="registerData.username"
       type="text"
-      name="username"
+      formControlName="username"
       class="form-control"
+      [class.is-invalid]="registerForm.get('username')?.errors && registerForm.get('username')?.touched"
       placeholder="Username"
-
     />
+    <div class="invalid-feedback">
+      Enter a valid username
+    </div>
   </div>
   <div class="mb-3">
     <input
-      [(ngModel)]="registerData.password"
       type="password"
-      name="password"
+      formControlName="password"
+      [class.is-invalid]="registerForm.get('password')?.errors && registerForm.get('password')?.touched"
       class="form-control"
       placeholder="Password"
-      
     />
+    <div class="invalid-feedback">
+      Enter a valid password
+    </div>
+  </div>
+  <div class="mb-3">
+    <input
+      type="password"
+      formControlName="confirmPass"
+      [class.is-invalid]="registerForm.get('confirmPass')?.errors && registerForm.get('confirmPass')?.touched"
+      class="form-control"
+      placeholder="Confirm Password"
+    />
+    <div class="invalid-feedback">
+      must be confimr password
+    </div>
   </div>
   <div class="text-center">
-    <button class="btn btn-success me-2" type="submit">
-        Register
+    <button
+      [disabled]="!registerForm.valid"
+      class="btn btn-success me-2"
+      type="submit"
+    >
+      Register
     </button>
     <button class="btn btn-default" (click)="cancel()" type="button">
-        Cancel
+      Cancel
     </button>
   </div>
 </form>
+
+<p>
+  {{ registerForm.valid | json }}
+</p>
+<p>
+  {{ registerForm.status | json }}
+</p>
