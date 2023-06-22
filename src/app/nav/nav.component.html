@@ -39,7 +39,7 @@
     <div class="dropdown" *ngIf="(currentUser$ | async) as user" dropdown>
       <img [src]="user.photoUrl || './assets/user.png'" alt="user photo">
       <a class="dropdown-toggle text-dark text-decoration-none ms-1" dropdownToggle>
-        Welcome <b>{{user.username | titlecase}}</b>
+        Welcome <b>{{user.knownAs | titlecase}}</b>
       </a>
       <div class="dropdown-menu mt-3" *dropdownMenu>
         <a class="dropdown-item" routerLink="/member/edit"> Edite Profile </a>

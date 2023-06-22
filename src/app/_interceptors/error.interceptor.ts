@@ -20,6 +20,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
       catchError((err: HttpErrorResponse) => {
         if (err) {
+          console.log({err});
           switch (err.status) {
             case 400:
               if (err.error.errors) {
