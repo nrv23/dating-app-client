@@ -5,41 +5,39 @@
     >
     <!-- *ngIf="currentUser$ | async"  utilizar observables y pipe async para saber si hay o no una sesion -->
     <ul
-      
       class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
       style="--bs-scroll-height: 100px"
     >
+      <li *ngIf="currentUser$ | async" class="nav-item">
+        <a class="nav-link" routerLinkActive="active" routerLink="/members"
+          >Matches</a
+        >
+      </li>
+      <li *ngIf="currentUser$ | async" class="nav-item">
+        <a class="nav-link" routerLinkActive="active" routerLink="/lists"
+          >List</a
+        >
+      </li>
+      <li *ngIf="currentUser$ | async" class="nav-item">
+        <a class="nav-link" routerLinkActive="active" routerLink="/messages"
+          >Messages</a
+        >
+      </li>
 
-       <ng-template *ngIf="currentUser$ | async">
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/members"
-            >Matches</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/lists"
-            >List</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/messages"
-            >Messages</a
-          >
-        </li>
-       </ng-template>
-
-       <li class="nav-item">
+      <li class="nav-item">
         <a class="nav-link" routerLinkActive="active" routerLink="/errors"
           >Errors</a
         >
       </li>
-
     </ul>
 
-    <div class="dropdown" *ngIf="(currentUser$ | async) as user" dropdown>
-      <img [src]="user.photoUrl || './assets/user.png'" alt="user photo">
-      <a class="dropdown-toggle text-dark text-decoration-none ms-1" dropdownToggle>
-        Welcome <b>{{user.knownAs | titlecase}}</b>
+    <div class="dropdown" *ngIf="currentUser$ | async as user" dropdown>
+      <img [src]="user.photoUrl || './assets/user.png'" alt="user photo" />
+      <a
+        class="dropdown-toggle text-dark text-decoration-none ms-1"
+        dropdownToggle
+      >
+        Welcome <b>{{ user.knownAs | titlecase }}</b>
       </a>
       <div class="dropdown-menu mt-3" *dropdownMenu>
         <a class="dropdown-item" routerLink="/member/edit"> Edite Profile </a>
@@ -55,7 +53,6 @@
     >
       <input
         [(ngModel)]="model.username"
-        
         name="username"
         class="form-control me-2"
         type="text"

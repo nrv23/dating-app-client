@@ -34,7 +34,10 @@ export class NavComponent implements OnInit {
     e.preventDefault();
 
     this.accountService.login(this.model).subscribe({
-      next: () => this.router.navigateByUrl('/members'),
+      next: () => {
+        console.log(this.currentUser$)
+        this.router.navigateByUrl('/members')
+      },
       error: (err) => {
         console.log(err);
       
