@@ -3,11 +3,13 @@ import { Injectable } from '@angular/core';
 import { IMember } from '../interfaces/IMember';
 import { getApiUrl } from '../utils/Api';
 import { map, of, take } from 'rxjs';
-import { PaginatedResults } from '../interfaces/IPagination';
 import { UserParams } from '../models/IUserParams';
 import { AccountService } from './account.service';
 import { IUserResponse } from '../interfaces/IUserResponse';
-
+import { 
+  getPaginatedResults,
+  getPaginationHeaders
+} from '../helpers/PaginationHelper';
 @Injectable({
   providedIn: 'root'
 })
@@ -54,14 +56,14 @@ export class MemberService {
     const response = this.memberCache.get(Object.values(userParams).join('-'));
     if (response) return of(response);
     // if(this.members.length) return of(this.members); // el of es un metodo que retorna un observable con el valor que se le pasa como parametro
-    let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
+    let params = getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
     params = params.append("minAge", userParams.minAge);
     params = params.append("maxAge", userParams.maxAge);
     params = params.append("gender", userParams.gender);
     params = params.append("orderBy", userParams.orderBy);
 
     const url = this.apiUrl.concat('/users');
-    return this.getPaginatedResults<IMember[]>(url, params).pipe(
+    return getPaginatedResults<IMember[]>(url, params,this.http).pipe(
       map(response => {
         this.memberCache.set(Object.values(userParams).join('-'), response);
         return response;
@@ -120,12 +122,12 @@ export class MemberService {
 
   getLikes(predicate: string, pageNumber: number, pageSize: number) {
 
-    let params = this.getPaginationHeaders(pageNumber, pageSize);
+    let params = getPaginationHeaders(pageNumber, pageSize);
     params = params.append('predicate', predicate);
     const url = `${this.apiUrl}/likes?predicate=${predicate}`;
-    return this.getPaginatedResults(url,params);
+    return getPaginatedResults(url,params,this.http);
   }
-
+/*
 
   private getPaginatedResults<T>(url: string, params: HttpParams) {
     const pagintedResults: PaginatedResults<T> = new PaginatedResults<T>;
@@ -153,6 +155,6 @@ export class MemberService {
     params = params.append('pageSize', itemsPerPage);
 
     return params;
-  }
+  }*/
 
 }
