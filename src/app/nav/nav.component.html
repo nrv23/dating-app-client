@@ -9,7 +9,7 @@
       style="--bs-scroll-height: 100px"
     >
       <li *ngIf="currentUser$ | async" class="nav-item">
-        <a class="nav-link" routerLinkActive="active" routerLink="/members"
+        <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/members"
           >Matches</a
         >
       </li>
