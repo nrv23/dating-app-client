@@ -4,4 +4,5 @@ export interface IUserResponse {
     photoUrl?: string;
     knownAs?: string;
     gender?: string;
+    roles: string[];
 }
