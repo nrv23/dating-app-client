@@ -23,7 +23,7 @@
           >Messages</a
         >
       </li>
-      <li *ngIf="currentUser$ | async" class="nav-item">
+      <li  *appHasRole="['Admin','Moderator']"  class="nav-item" >
         <a class="nav-link" routerLinkActive="active" routerLink="/admin/panel"
           >Admin</a
         >

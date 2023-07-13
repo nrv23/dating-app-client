@@ -19,6 +19,7 @@ export class NavComponent implements OnInit {
 
   //loggedIn: boolean = false;
   currentUser$: Observable<IUserResponse | null> = of(null);
+  isAdmin: boolean = false;
 
   constructor(
     private accountService: AccountService,
@@ -28,22 +29,31 @@ export class NavComponent implements OnInit {
     this.currentUser$ = this.accountService.currentUserSource$;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  
+    
+  }
 
   login(e: Event) {
     e.preventDefault();
 
     this.accountService.login(this.model).subscribe({
-      next: () => {
+      next: user => {
         console.log(this.currentUser$)
         this.router.navigateByUrl('/members')
       },
       error: (err) => {
         console.log(err);
-      
+
       },
       complete: () => console.log('Completado'),
     });
+  }
+
+  setIsAdmin(user: IUserResponse) {
+    if (user) {
+      if (user.roles.includes("Admin") || user.roles.includes("Moderator")) this.isAdmin = true;
+    }
   }
   logout() {
     this.accountService.logout();
