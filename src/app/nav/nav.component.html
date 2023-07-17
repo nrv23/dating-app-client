@@ -8,26 +8,29 @@
       class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
       style="--bs-scroll-height: 100px"
     >
-      <li *ngIf="currentUser$ | async" class="nav-item">
-        <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/members"
-          >Matches</a
-        >
-      </li>
-      <li *ngIf="currentUser$ | async" class="nav-item">
-        <a class="nav-link" routerLinkActive="active" routerLink="/lists"
-          >List</a
-        >
-      </li>
-      <li *ngIf="currentUser$ | async" class="nav-item">
-        <a class="nav-link" routerLinkActive="active" routerLink="/messages"
-          >Messages</a
-        >
-      </li>
-      <li  *appHasRole="['Admin','Moderator']"  class="nav-item" >
-        <a class="nav-link" routerLinkActive="active" routerLink="/admin/panel"
-          >Admin</a
-        >
-      </li>
+      <ng-container  *ngIf="currentUser$ | async" >
+
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/members"
+            >Matches</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/lists"
+            >List</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/messages"
+            >Messages</a
+          >
+        </li>
+        <li  *appHasRole="['Admin','Moderator']" class="nav-item" >
+          <a class="nav-link" routerLinkActive="active" routerLink="/admin/panel"
+            >Admin</a
+          >
+        </li>
+      </ng-container>
 
       <li class="nav-item">
         <a class="nav-link" routerLinkActive="active" routerLink="/errors"

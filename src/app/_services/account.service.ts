@@ -25,8 +25,7 @@ export class AccountService {
         map(response => {
 
           const user = response
-          if (user) {
-            save("user", JSON.stringify(user));
+          if (user) {   
             this.setCurrentUser(user);
           }
           return user;
@@ -39,9 +38,8 @@ export class AccountService {
       map(response => {
         const user = response
         if (user) {
-          save("user", JSON.stringify(user));
           this.setCurrentUser(user);
-        }
+        } 
 
         return user;
       })
@@ -53,14 +51,16 @@ export class AccountService {
   } */
 
   setCurrentUser(user: IUserResponse | null) {
-
+    
     if (user) {
-      //user.roles = [];
+      user.roles = [];
       const roles = this.getDecodedToken(user.token).role;
       const rolesForUser = Array.isArray(roles) ? roles : [roles];
       user.roles = rolesForUser;
+      save("user", JSON.stringify(user));
       this.currentUserSource.next(user);
     } else {
+      remove("user");
       this.currentUserSource.next(null);
     }
 

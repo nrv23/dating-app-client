@@ -58,7 +58,7 @@ import { HasRoleDirective } from './_directives/has-role.directive';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
     
   ],
   providers: [

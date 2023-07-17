@@ -12,22 +12,28 @@ export class HasRoleDirective implements OnInit {
   user: IUserResponse = {} as IUserResponse;
 
   constructor(private viewContainerRef: ViewContainerRef, private templateRef: TemplateRef<any>, private accountService: AccountService) {
-    this.accountService.currentUserSource$.pipe(take(1)).subscribe({
-      next: user => {
-        if(user) this.user = user;
-      }
+    this.accountService.currentUserSource$.subscribe(user => {
+        if(user) {
+          console.log("existe usuario")
+          this.user = user;
+        };
     })
    }
   ngOnInit(): void {
+    console.log(this.appHasRole)
+    console.log(this.user.roles)
     // clear view if no roles
-    if (!this.user?.roles || this.user == null) {
+    if (!this.user == null || !this.user?.roles ) {
       this.viewContainerRef.clear();
       return;
     }
 
+
     if (this.user?.roles.some(r  => this.appHasRole.includes(r))) { // validar si tiene los permisos necesarios
+      console.log("entro")
       this.viewContainerRef.createEmbeddedView(this.templateRef); // carga el html
     } else {
+      console.log(" no entro")
       this.viewContainerRef.clear(); // limpia el html para que no sea visible
     }
   }
