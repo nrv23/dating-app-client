@@ -12,7 +12,7 @@ export class HasRoleDirective implements OnInit {
   user: IUserResponse = {} as IUserResponse;
 
   constructor(private viewContainerRef: ViewContainerRef, private templateRef: TemplateRef<any>, private accountService: AccountService) {
-    this.accountService.currentUserSource$.subscribe(user => {
+    this.accountService.currentUserSource$.pipe(take(1)).subscribe(user => {
         if(user) {
           console.log("existe usuario")
           this.user = user;
