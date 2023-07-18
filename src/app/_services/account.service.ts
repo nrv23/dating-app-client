@@ -6,6 +6,7 @@ import { IUserResponse } from '../interfaces/IUserResponse';
 import { save, remove } from '../utils/Storage';
 import { IRegister } from '../interfaces/IRegister';
 import { getApiUrl } from '../utils/Api';
+import { PresenceService } from './presence.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +17,7 @@ export class AccountService {
   currentUserSource$ = this.currentUserSource.asObservable(); // esta propiedad es a donde los comppnentes se suscriben
   apiUrl: string = getApiUrl();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private presenceService: PresenceService) { }
 
 
   login(login: Login) {
@@ -59,9 +60,11 @@ export class AccountService {
       user.roles = rolesForUser;
       save("user", JSON.stringify(user));
       this.currentUserSource.next(user);
+      this.presenceService.createHubConnection(user);
     } else {
       remove("user");
       this.currentUserSource.next(null);
+      this.presenceService.stopHubConnection();
     }
 
   }
@@ -69,6 +72,7 @@ export class AccountService {
   logout() {
     remove("user");
     this.setCurrentUser(null);
+    this.presenceService.stopHubConnection();
   }
 
   getDecodedToken(token: string) {

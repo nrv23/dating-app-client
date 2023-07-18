@@ -3,7 +3,7 @@ import { get } from "./Storage";
 import { HttpHeaders } from "@angular/common/http";
 
 export const getApiUrl = () => environment.baseUrl;
-
+export const getHubsUrl = () => environment.hubsUrl;
 export const getHttpOptions = () => {
 
     const userData = get("user");
