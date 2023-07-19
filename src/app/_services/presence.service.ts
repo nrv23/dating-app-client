@@ -4,6 +4,7 @@ import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import {  ToastrService } from 'ngx-toastr';
 import { User } from '../interfaces/IUser';
 import { IUserResponse } from '../interfaces/IUserResponse';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ export class PresenceService {
   hubUrl = getHubsUrl();
 
   private hubConnection?: HubConnection;
+  private onlineUsersSource = new BehaviorSubject<string[]>([]);
+  onlineUsers$ = this.onlineUsersSource.asObservable();
 
   constructor(private toastr: ToastrService) { }
 
@@ -32,7 +35,12 @@ export class PresenceService {
 
       this.hubConnection.on("UserIsOffline", username => { // el callback username es lo que recibe como payload cuando se conecta
         this.toastr.warning(`${username} has disconnected`);
-      })
+      });
+
+      this.hubConnection.on("GetOnLineUsers",users => {
+        console.log({users});
+        this.onlineUsersSource.next(users)
+      });
   }
 
   stopHubConnection(){
