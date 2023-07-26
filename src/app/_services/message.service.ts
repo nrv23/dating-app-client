@@ -9,6 +9,7 @@ import { IMessage } from '../interfaces/IMessage';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { IUserResponse } from '../interfaces/IUserResponse';
 import { BehaviorSubject, take } from 'rxjs';
+import { IGroup } from '../interfaces/IGroup';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,22 @@ export class MessageService {
 
     this.hubsConnection.on("ReceivedMessageThread", messages => { // el callback username es lo que recibe como payload cuando se conecta
       this.messageThreadSource.next(messages);
+    });
+
+    this.hubsConnection.on("UpdatedGroup", (group: IGroup) => {
+      if(group.connections.some(x => x.userName === otherUsername)){
+        this.messageThreadSource$.pipe(take(1)).subscribe({
+          next: messages => {
+            messages.forEach(m => {
+              if(!m.dateRead) {
+                m.dateRead = new Date(Date.now());
+              }
+            });
+            this.messageThreadSource.next([...messages])  
+          }
+        });
+        
+      }
     });
 
     this.hubsConnection.on("NewMessage", message => { // el callback username es lo que recibe como payload cuando se conecta
