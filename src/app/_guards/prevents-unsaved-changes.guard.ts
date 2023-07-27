@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanDeactivate } from '@angular/router';
 import { MemberEditComponent } from '../members/member-edit/member-edit.component';
+import { ConfirmService } from '../_services/confirm.service';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +13,21 @@ export class PreventsUnsavedChangesGuard implements CanDeactivate<MemberEditComp
     En este caso navegar de MemberEditComponent a otro componente, validando que si tiene informacion sin guardar entonces pregunte antes de 
     navegar hacia otro componente 
   */
-  canDeactivate(
-    component: MemberEditComponent): boolean {
-    
-      if(component.editForm?.dirty){
-        return confirm("Are you sure you want to continue? Any unsaved changes will be lost")
-      }
 
-      return true;
+  /**
+   *
+   */
+  constructor(private confirmService: ConfirmService) {
+
   }
-  
+  canDeactivate(
+    component: MemberEditComponent): Observable<boolean> {
+
+    if (component.editForm?.dirty) {
+      return this.confirmService.confirm();
+    }
+
+    return of(true);
+  }
+
 }

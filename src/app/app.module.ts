@@ -30,6 +30,7 @@ import { HasRoleDirective } from './_directives/has-role.directive';
 import { UserManagmentComponent } from './admin/user-managment/user-managment.component';
 import { PhotoManagementsComponent } from './admin/photo-managements/photo-managements.component';
 import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
+import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { RolesModalComponent } from './modals/roles-modal/roles-modal.component'
     HasRoleDirective,
     UserManagmentComponent,
     PhotoManagementsComponent,
-    RolesModalComponent
+    RolesModalComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
