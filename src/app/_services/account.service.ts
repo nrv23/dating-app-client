@@ -21,7 +21,7 @@ export class AccountService {
 
 
   login(login: Login) {
-    return this.http.post<IUserResponse>(this.apiUrl.concat('/accounts/login'), login)
+    return this.http.post<IUserResponse>(this.apiUrl.concat('accounts/login'), login)
       .pipe(
         map(response => {
 
